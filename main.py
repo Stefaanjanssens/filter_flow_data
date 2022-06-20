@@ -20,7 +20,9 @@ filtered_series = df['read_flow M_1'].squeeze()
 outlier_indices = hampel(ts = filtered_series, window_size = 12, n=1)
 filtered_d = filtered_series.drop(outlier_indices)
 filtered_d.values.tolist()
+df['outliers']=(df.loc[outlier_indices])['read_flow M_1']
 df['filtered M1']=filtered_d
+
 
 #print(f'filtered_d: {filtered_d.values.tolist()}')
 
@@ -40,10 +42,7 @@ filtered_series.to_excel("filtered_flow_data.xlsx")
 plt.plot()
 
 
-#plot the outliers
-#plt.scatter(outlier_indices, filtered_series[outlier_indices], color="blue",marker='+')
-plt.scatter(outlier_indices, filtered_series[outlier_indices], color="blue",marker='+')
-plt.grid( linestyle='-.', linewidth=0.5)
+
 
 
 #find unique values in the 'no.' column
@@ -61,4 +60,17 @@ stds_filtered=df.groupby('no.').std().reset_index()
 means_filtered.to_excel("filtered_means.xlsx")
 stds_filtered.to_excel("filtered_stds.xlsx")
 
+#plot the original series
+plt.plot(df['runtime'],df['read_flow M_1'], color="black")
+#plot the filtered series
+plt.plot(df['runtime'],df['filtered M1'], color="yellow",alpha= 0.3)
+
+
+#plot the outliers
+#plt.scatter(outlier_indices, filtered_series[outlier_indices], color="blue",marker='+')
+plt.scatter(df['runtime'], df['outliers'], color="blue",marker='+')
+plt.grid( linestyle='-.', linewidth=0.5)
+#plot the filtered means
 plt.scatter(means_filtered['runtime'],means_filtered['filtered M1'], color="green",marker='*')
+#plot the unfiltered means
+plt.scatter(means['runtime'],means['read_flow M_1'], color="red",marker='.')
