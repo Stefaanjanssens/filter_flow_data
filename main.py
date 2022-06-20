@@ -39,9 +39,9 @@ def filtering(df,column, filteredname):
 
 
     #write some results to excel
-    df.to_excel("filtered_flow_data.xlsx")
-    means_filtered.to_excel("filtered_means.xlsx")
-    stds_filtered.to_excel("filtered_stds.xlsx")
+    df.to_excel(f"filtered_flow_data {column}.xlsx")
+    means_filtered.to_excel(f"filtered_means {column}.xlsx")
+    stds_filtered.to_excel(f"filtered_stds {column}.xlsx")
 
     #plot the original series
     plt.plot(df['runtime'],df[column], color="black")
@@ -60,10 +60,12 @@ def filtering(df,column, filteredname):
 
 
 
-
-#column='q C1'
+#column='read_flow M_1'
+column='q C1'
 #column='read_flow C2'
-column='read_flow M_1'
-filteredname='filtered M1'
+
+#filteredname='filtered M1'
+filteredname='filtered C1'
+#filteredname='filtered C2'
 
 filtering(df,column, filteredname)
